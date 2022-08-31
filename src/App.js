@@ -1,25 +1,36 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import Card from "./components/Card";
 
 function App() {
-	const [data, setData] = useState([]);
-
-	useEffect(() => {
-		axios.get('http://localhost:1337/menu-items')
-			.then(response => response.data.data)
-			.then(menuItems => setData(menuItems))
-	}, [])
+	const [isOpen, setIsOpen] = useState(false);
+	const handleClick = () => setIsOpen((prevValue) => !prevValue);
 
 	return (
-		<div className="flex">
-			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-10 bg-gray-100">
-				{data.map(item => (
-					<Card key={item.id} title={item.en_title} description={item.en_description} sizesPrices={item.sizes_prices} images={item.images} />
-				))}
+		<nav>
+			<div className="flex flex-col gap-y-4 justify-start  items-center">
+				<div
+					onClick={handleClick}
+					className={`${isOpen ? "rotate-45" : "-rotate-45 bg-white"} z-30 ease-in-out duration-500`}
+				>
+					<img src="/images/main.png" className="cursor-pointer w-16" alt="main" />
+				</div>
+
+				<a
+					href="#account"
+					className={`absolute ${isOpen ? "top-24" : "top-0"} cursor-pointer w-16 ease-in-out duration-500 z-20`}
+					onClick={handleClick}
+				>
+					<img src="/images/sec-1.png" alt="sec-1" />
+				</a>
+				<a
+					href="#orders"
+					className={`absolute ${isOpen ? "top-44" : "top-0"} cursor-pointer w-16 ease-in-out duration-500 z-10`}
+					onClick={handleClick}
+				>
+					<img src="/images/sec-2.png" alt="sec-2" />
+				</a>
 			</div>
-		</div>
+		</nav>
 	);
 }
 
